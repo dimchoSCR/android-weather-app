@@ -1,21 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/weather_card"
-    android:layout_width="300dp"
-    android:layout_height="250dp"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="2dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:weather="myapp.weather">
+    <data>
+        <variable name="model" type="team.project.weather.model.Model"/>
+    </data>
 
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/weather_card"
+        android:layout_width="330dp"
+        android:layout_height="300dp"
+        android:layout_gravity="top|center"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:contentPadding="10dp">
 
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:text="Last updated: yesturday 8pm" />
+            <!-- toRightOF and marginLeft are added for API level 15 -->
+            <ImageView
+                android:id="@+id/icn_weather"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                weather:src="@{model.currentDay.weather.iconID}"
+                tools:src="@mipmap/ic_rain_s_cloudy"/>
 
-</android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/txt_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/icn_weather"
+                android:text='@{String.valueOf(model.currentDay.windSpeed) + " m/s"}'
+                tools:text="12.0 m/s"/>
+
+            <TextView
+                android:id="@+id/txt_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/icn_weather"
+                android:layout_toEndOf="@+id/icn_weather"
+                android:layout_marginLeft="@dimen/weather_info_margin"
+                android:layout_marginStart="@dimen/weather_info_margin"
+                android:text="@{model.currentDay.locationCity}"
+                android:textSize="@dimen/text_size_weather_info"
+                tools:text="Johannesburg "/>
+
+            <TextView
+                android:id="@+id/txt_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_city"
+                android:layout_alignLeft="@+id/txt_city"
+                android:layout_alignStart="@+id/txt_city"
+                android:textSize="@dimen/text_size_temp"
+                android:text='@{String.valueOf(model.currentDay.temperature) + (char)0x00B0 +" C"}'
+                tools:text="29.9&#xb0; C"/>
+
+            <TextView
+                android:id="@+id/txt_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_temperature"
+                android:layout_alignLeft="@+id/txt_temperature"
+                android:layout_alignStart="@+id/txt_temperature"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="@{model.currentDay.weather.weatherName}"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="Cloundy with a chance of rain"/>
+
+            <TextView
+                android:id="@+id/txt_last_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                weather:date="@{model.currentDay.lastUpdated}"
+                tools:text="Last updated: 12.04 13:15"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>
