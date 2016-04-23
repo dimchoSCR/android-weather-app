@@ -3,6 +3,7 @@ package team.project.weather;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    public static Handler toastHandler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id == R.id.nav_home && !navigationView.getMenu().findItem(R.id.nav_home).isChecked()){
+
+            // Pop all the fragment instances from the back stack
             getFragmentManager().popBackStack("Home",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         }else if (id == R.id.nav_settings && !navigationView.getMenu().findItem(R.id.nav_settings).isChecked()){
             navigationView.getMenu().getItem(0).setChecked(false);
             // Handle the settings action
