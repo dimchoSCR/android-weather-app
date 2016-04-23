@@ -6,10 +6,9 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class DataBindingAdapters {
-    static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM HH:mm", Locale.US);
+    static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM HH:mm");
 
     @BindingAdapter("weather:src")
     public static void setImageResource(ImageView imageView, int resource){
