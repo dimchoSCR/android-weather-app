@@ -7,10 +7,10 @@ import team.project.weather.R;
 public class Day {
 
     public enum Weather{
-        SUNNY("Sunny",1),
-        CLOUDY("Cloudy", R.mipmap.ic_rain_s_cloudy),
-        RAINING("Raining",2),
-        SNOWING("Snowing",3);
+        SUNNY("Sunny",R.mipmap.ic_sunny),
+        CLOUDY("Cloudy", R.mipmap.ic_cloudy),
+        RAINING("Raining",R.mipmap.ic_raining),
+        SNOWING("Snowing",R.mipmap.ic_snowing);
 
         private String weatherName;
         private int iconID;
@@ -29,12 +29,12 @@ public class Day {
         }
     }
 
-    private float temperature; // in deg C
-    private String locationCity; // city name
+    private float temperature = 0; // in deg C
+    private String locationCity = "Sofia"; // city name
     //String locationCountry; // country name
-    private Weather weather;
-    private float windSpeed; // in m/s
-    private Date lastUpdated;
+    private Weather weather = Weather.CLOUDY;
+    private float windSpeed = 0; // in m/s
+    private Date lastUpdated = new Date(0);
 
     public float getTemperature() {
         return temperature;
