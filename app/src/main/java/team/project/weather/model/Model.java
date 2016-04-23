@@ -5,17 +5,6 @@ import android.databinding.ObservableField;
 import team.project.weather.model.Day;
 
 public class Model {
-    private Day currentDay;
+    public final ObservableField<Day> currentDay = new ObservableField<>();
 
-    public Model(Day day){
-        currentDay = day;
-    }
-
-    public Day getCurrentDay() {
-        return currentDay;
-    }
-
-    public void setCurrentDay(Day currentDay) {
-        this.currentDay = currentDay;
-    }
 }
