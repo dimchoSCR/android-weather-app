@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void testStuff(View view) {
-        OpenWeatherService ows = new OpenWeatherService();
-        ows.testApi();
-    }
+//    public void testStuff(View view) {
+//        OpenWeatherService ows = new OpenWeatherService();
+//        ows.testApi();
+//    }
 }
