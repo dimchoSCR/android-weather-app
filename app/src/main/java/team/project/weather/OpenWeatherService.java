@@ -34,30 +34,23 @@ public class OpenWeatherService implements WeatherService {
     }
 
     // HTTP Requests don't work on the main thread!!!
+    // The method is called in the UpdaterThread inside the WeatherFragment class
     public void testApi() {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=Sofia&appid=8673a08097591104b9aa183591c4a5ff";
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();
-                String url = "http://api.openweathermap.org/data/2.5/weather?q=Sofia&appid=8673a08097591104b9aa183591c4a5ff";
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
-                Request request = new Request.Builder()
-                        .url(url)
-                        .build();
+        Response response = null;
 
-                Response response = null;
-
-                try {
-                    response = client.newCall(request).execute();
-                    String res = response.body().string();
-                    Log.d(TAG, res);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
+        try {
+            response = client.newCall(request).execute();
+            String res = response.body().string();
+            Log.d(TAG, res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
