@@ -70,6 +70,7 @@ public class WeatherFragment extends Fragment {
             try {
                 // No need to synchronize with the UI thread because of the data binding
                 model.currentDay.set(openWeatherService.getCurrentDay(0,0));
+                openWeatherService.testApi();
             } catch (Exception err) {
                 Log.e("WeatherUpdate","Could not update weather!",err);
                 // Post the toast on the UI thread's MessageQueue
