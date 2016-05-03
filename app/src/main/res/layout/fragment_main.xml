@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/weather_card"
-        android:layout_width="330dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         card_view:cardCornerRadius="4dp"
@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:text="@{model.currentDay.locationCity}"
                 android:textSize="@dimen/text_size_weather_info"
-                tools:text="Johannesburg"/>
+                tools:text="Somewhere"/>
 
             <ImageView
                 android:id="@+id/icn_weather"
