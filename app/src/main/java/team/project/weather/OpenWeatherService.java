@@ -15,8 +15,10 @@ public class OpenWeatherService implements WeatherService {
     private static final String TAG = "Service";
 
     @Override
-    public Day getCurrentDay(float lat, float lon) throws Exception {
+    public Day getCurrentDay(double lat, double lon) throws Exception {
         // TODO Get the weather data using OpenWeatherMap API and parse it
+
+        testApi();
 
         //  Example data
         Day currentDay = new Day();
@@ -34,8 +36,7 @@ public class OpenWeatherService implements WeatherService {
     }
 
     // HTTP Requests don't work on the main thread!!!
-    // The method is called in the UpdaterThread inside the WeatherFragment class
-    public void testApi() {
+    public void testApi() throws Exception{
         OkHttpClient client = new OkHttpClient();
         String url = "http://api.openweathermap.org/data/2.5/weather?q=Sofia&appid=8673a08097591104b9aa183591c4a5ff";
 
@@ -45,12 +46,8 @@ public class OpenWeatherService implements WeatherService {
 
         Response response = null;
 
-        try {
-            response = client.newCall(request).execute();
-            String res = response.body().string();
-            Log.d(TAG, res);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response = client.newCall(request).execute();
+        String res = response.body().string();
+        Log.d(TAG, res);
     }
 }
