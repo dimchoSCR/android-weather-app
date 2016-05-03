@@ -2,6 +2,7 @@ package team.project.weather;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    private WeatherFragment weatherFragment = new WeatherFragment();
     public static Handler toastHandler = new Handler();
 
 
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     private void inflateMainFragment(){
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_main, new WeatherFragment(), "Home")
+                .replace(R.id.content_main, weatherFragment, "Home")
                 .commit();
     }
 
@@ -99,8 +101,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    public void testStuff(View view) {
-//        OpenWeatherService ows = new OpenWeatherService();
-//        ows.testApi();
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == WeatherFragment.REQUEST_CHECK_SETTINGS){
+            weatherFragment.onActivityResult(requestCode,resultCode,data);
+        }else{
+            super.onActivityResult(requestCode,resultCode,data);
+        }
+    }
+
+
 }
