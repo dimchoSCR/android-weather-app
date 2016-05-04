@@ -64,9 +64,6 @@ public class WeatherFragment extends Fragment
                     .addApi(LocationServices.API)
                     .build();
         }
-
-        // Sets up the parameters for the location request
-        createLocationRequest();
     }
 
     @Override
@@ -120,7 +117,8 @@ public class WeatherFragment extends Fragment
 
                 switch(status.getStatusCode()){
                     case LocationSettingsStatusCodes.SUCCESS:
-                        // Initialize location request
+                        // Sets up the parameters for the location request
+                        createLocationRequest();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         // Show a dialog to change current settings
