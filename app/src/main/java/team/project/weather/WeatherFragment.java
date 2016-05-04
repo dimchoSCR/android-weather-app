@@ -27,7 +27,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import java.util.concurrent.Executors;
@@ -64,6 +63,8 @@ public class WeatherFragment extends Fragment
                     .addApi(LocationServices.API)
                     .build();
         }
+
+       locationRequest = new LocationRequest();
     }
 
     @Override
@@ -118,7 +119,7 @@ public class WeatherFragment extends Fragment
                 switch(status.getStatusCode()){
                     case LocationSettingsStatusCodes.SUCCESS:
                         // Sets up the parameters for the location request
-                        createLocationRequest();
+                        initializeLocationRequest();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         // Show a dialog to change current settings
@@ -133,6 +134,7 @@ public class WeatherFragment extends Fragment
                                 ,"Could not change Location settings!"
                                 ,Toast.LENGTH_LONG)
                                 .show();
+                        break;
                 }
             }
         });
@@ -208,8 +210,7 @@ public class WeatherFragment extends Fragment
         //TODO do something when connection to google services fails
     }
 
-    private void createLocationRequest(){
-        locationRequest = new LocationRequest();
+    private void initializeLocationRequest(){
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -230,14 +231,15 @@ public class WeatherFragment extends Fragment
         @Override
         public void run(){
             try {
+                // Test the location coordinates
+                Log.d("Location",String.valueOf(currentLocation.getLatitude()));
+                Log.d("Location",String.valueOf(currentLocation.getLongitude()));
+
                 // No need to synchronize with the UI thread because of the data binding
                 model.currentDay.set(openWeatherService.getCurrentDay
                         (currentLocation.getLatitude()
                                 ,currentLocation.getLongitude()));
 
-                // Test the location coordinates
-                Log.d("Location",String.valueOf(currentLocation.getLatitude()));
-                Log.d("Location",String.valueOf(currentLocation.getLongitude()));
             } catch (Exception err) {
                 Log.e("WeatherUpdate","Could not update weather!",err);
                 // Post the toast on the UI thread's MessageQueue
