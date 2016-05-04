@@ -64,7 +64,8 @@ public class WeatherFragment extends Fragment
                     .build();
         }
 
-       locationRequest = new LocationRequest();
+       // Initialize a location request
+        initializeLocationRequest();
     }
 
     @Override
@@ -117,10 +118,6 @@ public class WeatherFragment extends Fragment
                 //final LocationSettingsStates lSettingsState = result.getLocationSettingsStates();
 
                 switch(status.getStatusCode()){
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        // Sets up the parameters for the location request
-                        initializeLocationRequest();
-                        break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         // Show a dialog to change current settings
                         try {
@@ -211,6 +208,7 @@ public class WeatherFragment extends Fragment
     }
 
     private void initializeLocationRequest(){
+        locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
