@@ -6,13 +6,11 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import team.project.weather.model.Day;
-import team.project.weather.model.ResponseParts.Weather;
 import team.project.weather.model.WeatherResponse;
 import team.project.weather.service.WeatherService;
 
@@ -30,34 +28,16 @@ public class OpenWeatherService implements WeatherService {
         Day current = new Day();
         current.setLocationCity(weather.getName());
         current.setTemperature((float) weather.getMain().getTemp());
+
+        // TODO: Get the current weather conditions and parse them
         // current.setWeather();
         current.setWindSpeed((float) weather.getWind().getSpeed());
         current.setLastUpdated(new Date());
 
-        // To test the exception handling uncomment the code below
-        // and comment the return statement
-        // throw new Exception("Test");
-
         return current;
     }
 
-    // HTTP Requests don't work on the main thread!!!
-    public void testApi() throws Exception{
-        OkHttpClient client = new OkHttpClient();
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=Sofia&appid=8673a08097591104b9aa183591c4a5ff";
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        Response response = null;
-
-        response = client.newCall(request).execute();
-        String res = response.body().string();
-        Log.d(TAG, res);
-    }
-
-    public String getWeatherByCoordinates(double lat, double lon) throws IOException {
+    private String getWeatherByCoordinates(double lat, double lon) throws IOException {
         String url = this.getUrlByCoordinates(lat, lon);
         Response res = this.simpleGetHttpRequest(url);
         return res.body().string();
