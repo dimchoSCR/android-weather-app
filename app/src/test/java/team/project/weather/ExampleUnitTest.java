@@ -33,7 +33,7 @@ public class ExampleUnitTest {
         assertEquals(url, "http://api.openweathermap.org/data/2.5/weather?appid=8673a08097591104b9aa183591c4a5ff&q=Sofia");
     }
 
-    @Test
+    /*@Test
     public void http_request() throws IOException {
         OpenWeatherService ows = new OpenWeatherService();
         String res = ows.getWeatherByCoordinates(42.67, 23.25);
@@ -47,7 +47,8 @@ public class ExampleUnitTest {
         String res = ows.getWeatherByCoordinates(42.67, 23.25);
         System.out.println(res);
 
-        //WeatherResponse wr = ows.parseResponse(res);
-        //System.out.println(wr.getMain().getTemp());
+        WeatherResponse wr = ows.parseResponse(res);
+        System.out.println(wr.getMain().getTemp());
     }
+    */
 }
