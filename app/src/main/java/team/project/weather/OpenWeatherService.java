@@ -2,6 +2,9 @@ package team.project.weather;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -9,6 +12,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import team.project.weather.model.Day;
+import team.project.weather.model.ResponseParts.Weather;
+import team.project.weather.model.WeatherResponse;
 import team.project.weather.service.WeatherService;
 
 public class OpenWeatherService implements WeatherService {
@@ -52,6 +57,29 @@ public class OpenWeatherService implements WeatherService {
         response = client.newCall(request).execute();
         String res = response.body().string();
         Log.d(TAG, res);
+    }
+
+    public String getWeatherByCoordinates(double lat, double lon) throws IOException {
+        String url = this.getUrlByCoordinates(lat, lon);
+        Response res = this.simpleGetHttpRequest(url);
+        return res.body().string();
+    }
+
+    public WeatherResponse parseResponse(String res) {
+        Gson gson = new Gson();
+        WeatherResponse wr = gson.fromJson(res, WeatherResponse.class);
+
+        return wr;
+    }
+
+    private Response simpleGetHttpRequest(String url) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return  response;
     }
 
     private String getURLWithAppid() {
