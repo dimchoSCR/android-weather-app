@@ -1,4 +1,4 @@
-package team.project.weather.model.ResponseParts;
+package team.project.weather.model.responseParts;
 
 public class SunsetSunrise {
 

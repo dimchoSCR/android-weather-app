@@ -1,12 +1,12 @@
 package team.project.weather.model;
 
-import team.project.weather.model.ResponseParts.Clouds;
-import team.project.weather.model.ResponseParts.Coordinates;
-import team.project.weather.model.ResponseParts.Rain;
-import team.project.weather.model.ResponseParts.SunsetSunrise;
-import team.project.weather.model.ResponseParts.Weather;
-import team.project.weather.model.ResponseParts.WeatherDetails;
-import team.project.weather.model.ResponseParts.Wind;
+import team.project.weather.model.responseParts.Clouds;
+import team.project.weather.model.responseParts.Coordinates;
+import team.project.weather.model.responseParts.Rain;
+import team.project.weather.model.responseParts.SunsetSunrise;
+import team.project.weather.model.responseParts.Weather;
+import team.project.weather.model.responseParts.WeatherDetails;
+import team.project.weather.model.responseParts.Wind;
 
 public class WeatherResponse {
 
