@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.io.FileOutputStream;
 
 import team.project.weather.model.Day;
 import team.project.weather.service.WeatherStorageService;
 
-public class CacheManager implements WeatherStorageService, Serializable{
+public class CacheManager implements WeatherStorageService{
 
     public static final String FILE_NAME = "Cache";
     private File file;
@@ -26,6 +25,8 @@ public class CacheManager implements WeatherStorageService, Serializable{
 
         ObjectOutputStream objectOut = new ObjectOutputStream(new FileOutputStream(file));
         objectOut.writeObject(day);
+
+        objectOut.close();
     }
     @Override
     public Day retrieve() throws Exception {
