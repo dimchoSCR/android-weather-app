@@ -3,6 +3,7 @@ package team.project.weather;
 import android.util.Log;
 
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -13,6 +14,8 @@ import team.project.weather.service.WeatherService;
 public class OpenWeatherService implements WeatherService {
 
     private static final String TAG = "Service";
+    private static final String APPID = "8673a08097591104b9aa183591c4a5ff";
+    private static final String MAIN_URL = "http://api.openweathermap.org/data/2.5/weather";
 
     @Override
     public Day getCurrentDay(double lat, double lon) throws Exception {
@@ -49,5 +52,20 @@ public class OpenWeatherService implements WeatherService {
         response = client.newCall(request).execute();
         String res = response.body().string();
         Log.d(TAG, res);
+    }
+
+    private String getURLWithAppid() {
+        String url = String.format("%s?appid=%s", this.MAIN_URL, this.APPID);
+        return url;
+    }
+
+    private String getUrlByCity(String city) {
+        String url = String.format("%s&q=%s", this.getURLWithAppid(), city);
+        return url;
+    }
+
+    private String getUrlByCoordinates(double lat, double lon) {
+        String url = String.format("%s&lat=%s&lon=%s", this.getURLWithAppid(), lat, lon);
+        return url;
     }
 }
