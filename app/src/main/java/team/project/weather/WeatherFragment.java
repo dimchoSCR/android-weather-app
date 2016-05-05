@@ -3,6 +3,7 @@ package team.project.weather;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -77,7 +78,7 @@ public class WeatherFragment extends Fragment
         weatherView = binding.getRoot();
 
         Day day;
-        manager = new CacheManager();
+        manager = new CacheManager(weatherView.getContext());
 
         // Retrieve data from cache if possible
         try {

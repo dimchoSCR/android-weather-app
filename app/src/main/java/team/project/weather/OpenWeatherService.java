@@ -24,8 +24,6 @@ public class OpenWeatherService implements WeatherService {
 
     @Override
     public Day getCurrentDay(double lat, double lon) throws Exception {
-        // TODO Get the weather data using OpenWeatherMap API and parse it
-
         String res = this.getWeatherByCoordinates(lat, lon);
         WeatherResponse weather = this.parseResponse(res);
 

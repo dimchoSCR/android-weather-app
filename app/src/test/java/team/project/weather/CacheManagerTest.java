@@ -20,7 +20,7 @@ public class CacheManagerTest {
 
     @Before
     public void initialize() throws Exception{
-        cacheManager = new CacheManager();
+        //cacheManager = new CacheManager();
 
         Day day = new Day();
         day.setLocationCity(CITY_NAME);
