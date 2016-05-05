@@ -78,10 +78,10 @@ public class WeatherFragment extends Fragment
         weatherView = binding.getRoot();
 
         Day day;
-        manager = new CacheManager(weatherView.getContext());
 
         // Retrieve data from cache if possible
         try {
+            manager = new CacheManager(getActivity().getApplicationContext());
             day = manager.retrieve();
         } catch (Exception err) {
             Log.e("Cache", "Error retrieving data from cache", err);

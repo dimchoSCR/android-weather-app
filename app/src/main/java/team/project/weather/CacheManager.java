@@ -20,13 +20,34 @@ public class CacheManager implements WeatherStorageService{
     private File file;
     private Context context;
 
-    public CacheManager(Context context){
+    public CacheManager(Context context) throws Exception{
         this.context = context;
+        file = setupDir();
     }
 
     @Override
     public void store(Day day) throws Exception {
-        String pathName = context.getFilesDir().getAbsolutePath() + File.pathSeparator + STORAGE_DIR;
+        if(!file.exists()){
+            throw new Exception("File does not exists");
+        }
+
+        ObjectOutputStream objectOut = new ObjectOutputStream(new FileOutputStream(file));
+        objectOut.writeObject(day);
+
+        objectOut.close();
+    }
+    @Override
+    public Day retrieve() throws Exception {
+
+        ObjectInputStream objectIn = new ObjectInputStream(new FileInputStream(file));
+
+        return (Day) objectIn.readObject();
+    }
+
+    private File setupDir()throws Exception{
+        String pathName = context.getFilesDir().getAbsolutePath()
+                + File.pathSeparator + STORAGE_DIR;
+
         File storageDir = new File(pathName);
 
         if(!storageDir.isDirectory()){
@@ -42,19 +63,6 @@ public class CacheManager implements WeatherStorageService{
             }
         }
 
-        ObjectOutputStream objectOut = new ObjectOutputStream(new FileOutputStream(file));
-        objectOut.writeObject(day);
-
-        objectOut.close();
-    }
-    @Override
-    public Day retrieve() throws Exception {
-        if(file==null) {
-            throw new Exception("file doesn't exist");
-        }
-
-        ObjectInputStream objectIn = new ObjectInputStream(new FileInputStream(file));
-
-        return (Day) objectIn.readObject();
+        return file;
     }
 }
