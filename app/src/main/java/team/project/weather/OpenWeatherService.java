@@ -29,7 +29,6 @@ public class OpenWeatherService implements WeatherService {
 
     @Override
     public Day getCurrentDay(double lat, double lon) throws Exception {
-
         String res = this.getWeatherByCoordinates(lat, lon);
         WeatherResponse weather = this.jsonConverter.jsonToWeatherResponse(res);
 
