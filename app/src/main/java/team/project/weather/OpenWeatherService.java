@@ -26,21 +26,21 @@ public class OpenWeatherService implements WeatherService {
     public Day getCurrentDay(double lat, double lon) throws Exception {
         // TODO Get the weather data using OpenWeatherMap API and parse it
 
-        testApi();
+        String res = this.getWeatherByCoordinates(lat, lon);
+        WeatherResponse weather = this.parseResponse(res);
 
-        //  Example data
-        Day currentDay = new Day();
-        currentDay.setLocationCity("Johannesburg");
-        currentDay.setTemperature(27.9f);
-        currentDay.setWeather(Day.Weather.SUNNY);
-        currentDay.setWindSpeed(10.2f);
-        currentDay.setLastUpdated(new Date());
+        Day current = new Day();
+        current.setLocationCity(weather.getName());
+        current.setTemperature((float) weather.getMain().getTemp());
+        // current.setWeather();
+        current.setWindSpeed((float) weather.getWind().getSpeed());
+        current.setLastUpdated(new Date());
 
         // To test the exception handling uncomment the code below
         // and comment the return statement
         // throw new Exception("Test");
 
-        return currentDay;
+        return current;
     }
 
     // HTTP Requests don't work on the main thread!!!
@@ -65,7 +65,7 @@ public class OpenWeatherService implements WeatherService {
         return res.body().string();
     }
 
-    public WeatherResponse parseResponse(String res) {
+    private WeatherResponse parseResponse(String res) {
         Gson gson = new Gson();
         WeatherResponse wr = gson.fromJson(res, WeatherResponse.class);
 

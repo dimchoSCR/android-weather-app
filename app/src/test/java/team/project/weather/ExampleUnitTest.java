@@ -47,7 +47,7 @@ public class ExampleUnitTest {
         String res = ows.getWeatherByCoordinates(42.67, 23.25);
         System.out.println(res);
 
-        WeatherResponse wr = ows.parseResponse(res);
-        System.out.println(wr.getMain().getTemp());
+        //WeatherResponse wr = ows.parseResponse(res);
+        //System.out.println(wr.getMain().getTemp());
     }
 }
