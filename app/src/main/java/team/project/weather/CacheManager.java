@@ -1,32 +1,40 @@
 package team.project.weather;
 
-import java.util.Date;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.FileOutputStream;
 
 import team.project.weather.model.Day;
 import team.project.weather.service.WeatherStorageService;
 
-public class CacheManager implements WeatherStorageService{
+public class CacheManager implements WeatherStorageService, Serializable{
+
+    public static final String FILE_NAME = "Cache";
+    private File file;
+
     @Override
     public void store(Day day) throws Exception {
-        //TODO Store a day into the cache
-    }
+        file = new File(FILE_NAME);
+        if(!file.exists()){
+            if(!file.createNewFile()){
+                throw new Exception("could not be created");
+            }
+        }
 
+        ObjectOutputStream objectOut = new ObjectOutputStream(new FileOutputStream(file));
+        objectOut.writeObject(day);
+    }
     @Override
     public Day retrieve() throws Exception {
-        //TODO retrieve the data from the cache
+        if(file==null) {
+            throw new Exception("file doesn't exist");
+        }
 
-        // This is an example of the data the method should return when ready
-        Day currentDay = new Day();
-        currentDay.setLocationCity("Sofia");
-        currentDay.setTemperature(26f);
-        currentDay.setWeather(Day.Weather.CLOUDY);
-        currentDay.setWindSpeed(5.3f);
-        currentDay.setLastUpdated(new Date());
+        ObjectInputStream objectIn = new ObjectInputStream(new FileInputStream(file));
 
-        // To test the exception handling uncomment the code below
-        // and comment the return statement
-        //throw new Exception("Test");
-
-        return currentDay;
+        return (Day) objectIn.readObject();
     }
 }

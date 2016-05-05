@@ -44,6 +44,7 @@ public class WeatherFragment extends Fragment
     public static final int REQUEST_CHECK_SETTINGS = 1;
 
     private View weatherView;
+    private CacheManager manager;
     private GoogleApiClient googleApiClient;
     private Location lastKnownLocation;
     private Location currentLocation;
@@ -76,7 +77,7 @@ public class WeatherFragment extends Fragment
         weatherView = binding.getRoot();
 
         Day day;
-        CacheManager manager = new CacheManager();
+        manager = new CacheManager();
 
         // Retrieve data from cache if possible
         try {
@@ -237,6 +238,9 @@ public class WeatherFragment extends Fragment
                 model.currentDay.set(openWeatherService.getCurrentDay
                         (currentLocation.getLatitude()
                                 ,currentLocation.getLongitude()));
+
+                manager.store(model.currentDay.get());
+
 
             } catch (Exception err) {
                 Log.e("WeatherUpdate","Could not update weather!",err);
