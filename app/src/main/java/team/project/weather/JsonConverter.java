@@ -15,6 +15,7 @@ public class JsonConverter implements IJsonConverter {
 
     @Override
     public WeatherResponse jsonToWeatherResponse(String jsonResponse) {
+
         WeatherResponse wr = this.gson.fromJson(jsonResponse, WeatherResponse.class);
         return wr;
     }
