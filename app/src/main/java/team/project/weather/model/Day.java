@@ -1,12 +1,13 @@
 package team.project.weather.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import team.project.weather.R;
 
-public class Day {
+public class Day implements Serializable{
 
-    public enum Weather{
+    public enum Weather {
         SUNNY("Sunny",R.mipmap.ic_sunny),
         CLOUDY("Cloudy", R.mipmap.ic_cloudy),
         RAINING("Raining",R.mipmap.ic_raining),
@@ -29,7 +30,8 @@ public class Day {
         }
     }
 
-    private float temperature = 0; // in deg C
+    private float temperature = 0;
+    private String temperatureUnit;
     private String locationCity = "Sofia"; // city name
     //String locationCountry; // country name
     private Weather weather = Weather.CLOUDY;
@@ -42,6 +44,14 @@ public class Day {
 
     public void setTemperature(float temperature) {
         this.temperature = temperature;
+    }
+
+    public String getTemperatureUnit() {
+        return temperatureUnit;
+    }
+
+    public void setTemperatureUnit(String temperatureUnit) {
+        this.temperatureUnit = temperatureUnit;
     }
 
     public String getLocationCity() {

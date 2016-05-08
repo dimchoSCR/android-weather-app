@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/weather_card"
-        android:layout_width="330dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         card_view:cardCornerRadius="4dp"
@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:text="@{model.currentDay.locationCity}"
                 android:textSize="@dimen/text_size_weather_info"
-                tools:text="Johannesburg"/>
+                tools:text="Somewhere"/>
 
             <ImageView
                 android:id="@+id/icn_weather"
@@ -51,7 +51,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginStart="25dp"
                 android:textSize="@dimen/text_size_temp"
-                android:text='@{String.valueOf(model.currentDay.temperature) + (char)0x00B0 +" C"}'
+                android:text='@{String.valueOf(model.currentDay.temperature) + (char)0x00B0 + " " + model.currentDay.temperatureUnit}'
                 tools:text="25.9&#xb0; C"/>
 
             <TextView
@@ -85,6 +85,15 @@
                 android:layout_centerHorizontal="true"
                 weather:date="@{model.currentDay.lastUpdated}"
                 tools:text="Last updated: 12.04 13:15"/>
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Test shit"-->
+                <!--android:id="@+id/test_btn"-->
+                <!--android:layout_below="@+id/txt_wind"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:onClick="testStuff" />-->
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

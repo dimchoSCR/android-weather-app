@@ -1,11 +1,17 @@
 package team.project.weather.adapter;
 
+import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
+import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import team.project.weather.MainActivity;
+import team.project.weather.SettingsFragment;
 
 public class DataBindingAdapters {
     static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM HH:mm");

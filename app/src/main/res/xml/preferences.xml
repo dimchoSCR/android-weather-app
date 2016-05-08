@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
+    <ListPreference
         android:key="pref_key_temp_unit"
         android:summary="@string/pref_summary_temp_unit"
-        android:title="@string/pref_title_temp_unit"/>
+        android:title="@string/pref_title_temp_unit"
+        android:dialogTitle="Units"
+        android:entries="@array/temp_units_entries"
+        android:entryValues="@array/temp_units_values"
+        android:defaultValue="@string/default_temp_unit" />
 </PreferenceScreen>
