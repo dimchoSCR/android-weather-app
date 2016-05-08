@@ -1,8 +1,6 @@
 package team.project.weather;
 
 import android.content.SharedPreferences;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
 
 import java.util.Date;
 
@@ -13,10 +11,6 @@ import team.project.weather.model.WeatherResponse;
 import team.project.weather.service.WeatherService;
 
 public class OpenWeatherService implements WeatherService {
-
-    private static final String TAG = "Service";
-    private static final String APPID = "8673a08097591104b9aa183591c4a5ff";
-    private static final String MAIN_URL = "http://api.openweathermap.org/data/2.5/weather";
 
     private IJsonConverter jsonConverter;
     private IHttpRequester httpRequester;
@@ -69,12 +63,50 @@ public class OpenWeatherService implements WeatherService {
                 break;
         }
 
+        int weatherConditionsCode = weather.getWeather()[0].getId();
 
-        // TODO: Get the current weather conditions and parse them
-        // current.setWeather();
+        current.setWeather(this.getWeatherConditionsByCode(weatherConditionsCode));
         current.setWindSpeed((float) weather.getWind().getSpeed());
         current.setLastUpdated(new Date());
 
         return current;
+    }
+
+    // Weather codes: http://openweathermap.org/weather-conditions
+    private Day.Weather getWeatherConditionsByCode(int code) {
+
+        int firstDigit = code / 100;
+        switch (firstDigit) {
+            case 2: return Day.Weather.RAINING;
+            case 3: return Day.Weather.RAINING;
+            case 5: return Day.Weather.RAINING;
+            case 6: return Day.Weather.SNOWING;
+            case 7: return Day.Weather.CLOUDY;
+            case 8: {
+                if (code == 800) {
+                    return Day.Weather.SUNNY;
+                } else {
+                    return Day.Weather.CLOUDY;
+                }
+            }
+
+            case 9: {
+                if (code == 900 || code == 901 || code == 902 || code == 906) {
+                    return Day.Weather.RAINING;
+                } else if (code == 903) {
+                    return Day.Weather.SNOWING;
+                } else if (code == 904) {
+                    return Day.Weather.SUNNY;
+                } else if (code == 905) {
+                    return Day.Weather.CLOUDY;
+                } else if (code >= 951 && code < 960) {
+                    return Day.Weather.CLOUDY;
+                } else {
+                    return Day.Weather.RAINING;
+                }
+            }
+
+            default: return Day.Weather.SUNNY;
+        }
     }
 }
