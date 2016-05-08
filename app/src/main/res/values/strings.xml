@@ -11,4 +11,5 @@
 
     <string name="pref_title_temp_unit">Temperature units</string>
     <string name="pref_summary_temp_unit">Change the default temperature unit</string>
+    <string name="default_temp_unit">Celsius</string>
 </resources>

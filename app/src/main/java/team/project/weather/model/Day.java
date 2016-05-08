@@ -30,7 +30,8 @@ public class Day implements Serializable{
         }
     }
 
-    private float temperature = 0; // in deg C
+    private float temperature = 0;
+    private String temperatureUnit;
     private String locationCity = "Sofia"; // city name
     //String locationCountry; // country name
     private Weather weather = Weather.CLOUDY;
@@ -43,6 +44,14 @@ public class Day implements Serializable{
 
     public void setTemperature(float temperature) {
         this.temperature = temperature;
+    }
+
+    public String getTemperatureUnit() {
+        return temperatureUnit;
+    }
+
+    public void setTemperatureUnit(String temperatureUnit) {
+        this.temperatureUnit = temperatureUnit;
     }
 
     public String getLocationCity() {

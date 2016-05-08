@@ -51,7 +51,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginStart="25dp"
                 android:textSize="@dimen/text_size_temp"
-                android:text='@{String.valueOf(model.currentDay.temperature) + (char)0x00B0 +" C"}'
+                android:text='@{String.valueOf(model.currentDay.temperature) + (char)0x00B0 + " " + model.currentDay.temperatureUnit}'
                 tools:text="25.9&#xb0; C"/>
 
             <TextView

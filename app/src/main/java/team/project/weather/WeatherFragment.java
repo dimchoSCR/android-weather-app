@@ -3,13 +3,14 @@ package team.project.weather;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -51,10 +52,14 @@ public class WeatherFragment extends Fragment
     private Location currentLocation;
     private Model model;
     private LocationRequest locationRequest;
+    private SharedPreferences sharedPref;
+    private boolean wasResumed = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRetainInstance(false);
 
         // Create an instance of the GoogleApiClient
         // and add the LocationServices.API
@@ -92,6 +97,25 @@ public class WeatherFragment extends Fragment
         }
 
         model = new Model();
+
+        PreferenceManager.setDefaultValues(getActivity().getApplicationContext(), R.xml.preferences, false);
+        sharedPref = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getApplicationContext());
+
+        if(wasResumed) {
+            if (sharedPref.getString(SettingsFragment.TEMP_UNIT_KEY, "").equals("Celsius")) {
+                if(!day.getTemperatureUnit().equals("C")) {
+                    day.setTemperature((float) TemperatureUnitConvertor.fahrenheitToCelsius(day.getTemperature()));
+                    day.setTemperatureUnit("C");
+                }
+            } else {
+                if(!day.getTemperatureUnit().equals("F")) {
+                    day.setTemperature((float) TemperatureUnitConvertor.celsiusToFahrenheit(day.getTemperature()));
+                    day.setTemperatureUnit("F");
+                }
+            }
+        }
+
         model.currentDay.set(day);
         binding.setModel(model);
 
@@ -140,6 +164,12 @@ public class WeatherFragment extends Fragment
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        wasResumed = true;
+    }
+
+    @Override
     // Handle the result of the settings change
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == REQUEST_CHECK_SETTINGS){
@@ -155,13 +185,6 @@ public class WeatherFragment extends Fragment
                         .show();
             }
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        // Disconnect from the Google Play Services
-        googleApiClient.disconnect();
     }
 
     @Override
@@ -222,7 +245,7 @@ public class WeatherFragment extends Fragment
 
         UpdaterThread(Model model){
             this.model = model;
-            openWeatherService = new OpenWeatherService();
+            openWeatherService = new OpenWeatherService(sharedPref);
 
             // Start receiving location updates
             startLocationUpdates();
@@ -272,5 +295,6 @@ public class WeatherFragment extends Fragment
                 Log.d("Permissions","Permission error",err);
             }
         }
+
     }
 }

@@ -1,5 +1,9 @@
 package team.project.weather;
 
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+
 import java.util.Date;
 
 import team.project.weather.interfaces.IHttpRequester;
@@ -16,9 +20,10 @@ public class OpenWeatherService implements WeatherService {
 
     private IJsonConverter jsonConverter;
     private IHttpRequester httpRequester;
+    private SharedPreferences sharedPref;
 
-    public OpenWeatherService() {
-
+    public OpenWeatherService(SharedPreferences sharedPref) {
+        this.sharedPref = sharedPref;
         this.jsonConverter = new JsonConverter();
         this.httpRequester = new HttpRequester();
     }
@@ -42,12 +47,28 @@ public class OpenWeatherService implements WeatherService {
     @Override
     public Day getCurrentDay(double lat, double lon) throws Exception {
 
+        // Get the preference from the SharedPreferences file
+        String tempUnitPref = sharedPref.getString(SettingsFragment.TEMP_UNIT_KEY,"");
+
         String res = this.httpRequester.getWeatherByCoordinates(lat, lon);
         WeatherResponse weather = this.jsonConverter.jsonToWeatherResponse(res);
 
         Day current = new Day();
         current.setLocationCity(weather.getName());
-        current.setTemperature((float) weather.getMain().getTemp());
+
+        switch(tempUnitPref){
+            case "Celsius":
+                current.setTemperature((float)TemperatureUnitConvertor.
+                    kelvinToCelsius(weather.getMain().getTemp()));
+                current.setTemperatureUnit("C");
+                break;
+            case "Fahrenheit":
+                current.setTemperature((float)TemperatureUnitConvertor.
+                        kelvinToFahrenheit(weather.getMain().getTemp()));
+                current.setTemperatureUnit("F");
+                break;
+        }
+
 
         // TODO: Get the current weather conditions and parse them
         // current.setWeather();

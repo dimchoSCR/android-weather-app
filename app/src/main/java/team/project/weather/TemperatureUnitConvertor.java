@@ -3,15 +3,15 @@ package team.project.weather;
 public class TemperatureUnitConvertor {
 
     public static double kelvinToCelsius(double kelvin) {
-        return kelvin - 273.15;
+        return Math.round((kelvin - 273.15) * 10.0 ) / 10.0;
     }
 
     public static double kelvinToFahrenheit(double kelvin) {
-        return kelvin * 1.8 - 459.67;
+        return Math.round((kelvin * 1.8 - 459.67) * 10.0 ) / 10.0;
     }
 
     public static double celsiusToFahrenheit(double celsius) {
-        return celsius * 1.8 + 32;
+        return Math.round(((celsius * 1.8) + 32) *10.0)/10.0;
     }
 
     public static double celsiusToKelvin(double celsius) {
@@ -19,7 +19,7 @@ public class TemperatureUnitConvertor {
     }
 
     public static double fahrenheitToCelsius(double fahrenheit) {
-        return (fahrenheit - 32.) / 1.8;
+        return Math.round(((fahrenheit/1.8) - 32 )*10.0)/10.0;
     }
 
     public static double fahrenheitToKelvin(double fahrenheit) {
